@@ -1,5 +1,6 @@
 import io
 import logging
+import traceback
 from click import command
 import discord
 import aiohttp
@@ -21,13 +22,13 @@ class Slash(commands.Cog):
         await self.bot.tree.sync(guild=discord.Object(id=951303456650580058))
 
     @app_commands.command(description="test command")
-    @app_commands.guilds(951303456650580058, 937904383105048577)
+    @app_commands.guilds(951303456650580058)
     async def help(self, interaction: discord.Interaction):
       embed = discord.Embed(title='Help', description='This is a help command', color=0x00ff00)
       await interaction.response.send_message(embed=embed)
 
     @app_commands.command(description="For hugging your friends")
-    @app_commands.guilds(951303456650580058, 937904383105048577)
+    @app_commands.guilds(951303456650580058)
     async def hug(self, interaction: discord.Interaction, member: discord.Member):
        async with aiohttp.ClientSession() as session:
         request = await session.get('https://nekos.life/api/v2/img/hug')
@@ -37,7 +38,7 @@ class Slash(commands.Cog):
         await interaction.response.send_message(embed=embed)
 
     @app_commands.command(description="For kissing your lovers or friends")
-    @app_commands.guilds(951303456650580058, 937904383105048577)
+    @app_commands.guilds(951303456650580058)
     async def kiss(self, interaction: discord.Interaction, member: discord.Member):
          async with aiohttp.ClientSession() as session:
           request = await session.get('https://nekos.life/api/v2/img/kiss')
@@ -47,7 +48,7 @@ class Slash(commands.Cog):
           await interaction.response.send_message(embed=embed)
 
     @app_commands.command(description="Gay Power")
-    @app_commands.guilds(951303456650580058, 937904383105048577)
+    @app_commands.guilds(951303456650580058)
     async def gay(self, interaction: discord.Interaction, member: discord.Member):
         async with aiohttp.ClientSession() as session:
             async with session.get(f'https://some-random-api.ml/canvas/gay?avatar={member.avatar.replace(format="png")}') as af:
@@ -65,7 +66,7 @@ class Slash(commands.Cog):
         await session.close()
 
     @app_commands.command(description="For cuddling your friends")
-    @app_commands.guilds(951303456650580058, 937904383105048577)
+    @app_commands.guilds(951303456650580058)
     async def _8ball(self, interaction: discord.Interaction, question: str):
         responses = [
             "It is certain.",
