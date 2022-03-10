@@ -10,6 +10,7 @@ import aiohttp
 from utils.button import Counter, Pages
 from utils.database import db
 import os
+from discord import app_commands
 
 
 class general(commands.Cog, description="This well be where all fun commands are"):
@@ -102,7 +103,6 @@ class general(commands.Cog, description="This well be where all fun commands are
        json = await request.json()
        embed = discord.Embed(title="Fact", description=f"{json['fact']}", color=FUN_COLOR)
        await ctx.send(embed=embed)
-            
 
 def setup(bot):
     bot.add_cog(general(bot=bot))
