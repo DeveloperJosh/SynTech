@@ -240,7 +240,7 @@ class images(commands.Cog, description="This is where you can get images"):
       async with aiohttp.ClientSession() as session:
        request = await session.get('https://nekos.life/api/v2/img/hug')
        json = await request.json()
-       embed = discord.Embed(title=f"Huggies! {ctx.author.name} huged {member.display_name}", color=MAIN_COLOR)
+       embed = discord.Embed(title=f"Huggies! {ctx.author.name} hugged {member.display_name}", color=MAIN_COLOR)
        embed.set_image(url=json['url'])
        await ctx.send(embed=embed)
 
