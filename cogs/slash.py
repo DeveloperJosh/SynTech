@@ -36,7 +36,7 @@ class Slash(commands.Cog):
         embed.set_image(url=json['url'])
         await interaction.response.send_message(embed=embed)
 
-    @app_commands.command(description="For kissing your friends")
+    @app_commands.command(description="For kissing your lovers or friends")
     @app_commands.guilds(951303456650580058, 937904383105048577)
     async def kiss(self, interaction: discord.Interaction, member: discord.Member):
          async with aiohttp.ClientSession() as session:
