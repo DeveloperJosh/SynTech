@@ -16,7 +16,7 @@ intents.message_content = True
 
 bot = commands.AutoShardedBot(
     owner_ids=DEVELOPERS,
-    command_prefix='!',
+    command_prefix=PREFIXES,
     intents=intents,
     case_insensitive=True,
     allowed_mentions=discord.AllowedMentions(everyone=False, roles=False, users=True, replied_user=True),
