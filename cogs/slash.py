@@ -94,12 +94,5 @@ class Slash(commands.Cog):
         embed = discord.Embed(title="8ball", description=f"Question: {question}\nAnswer: {response}", color=FUN_COLOR)
         await interaction.response.send_message(embed=embed)
 
-    ### This command is still wip
-
-    @app_commands.command(description="Plays a game of Rock, Paper, Scissors")
-    @app_commands.guilds(951303456650580058)
-    async def play(self, interaction: discord.Interaction):
-        interaction.response.send_message("Working on it")
-
 def setup(bot):
     bot.add_cog(Slash(bot))
