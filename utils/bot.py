@@ -1,16 +1,13 @@
-import asyncio
-from distutils.log import error
 import logging
 import os
 
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
 
-from config import MAIN_COLOR, PREFIXES, DEVELOPERS, COGS
+from config import PREFIXES, DEVELOPERS, COGS
 
 intents = discord.Intents.default()
 intents.members = True
-intents.message_content = True
 
 bot = commands.Bot(
     owner_ids=DEVELOPERS,
@@ -29,20 +26,14 @@ async def main():
             await bot.load_extension(ext)
         await bot.start(os.getenv('DISCORD_BOT_SECRET'))
 
-def check_cogs(self):
-    for ext in COGS:
-        if not ext in self.bot.extensions:
-            error(f'{ext} is not loaded')
-
-
 @bot.event
 async def on_ready():
+    os.system('cls')
     print("""
 
 ░██████╗██╗░░░██╗███╗░░██╗████████╗███████╗░█████╗░██╗░░██╗
 ██╔════╝╚██╗░██╔╝████╗░██║╚══██╔══╝██╔════╝██╔══██╗██║░░██║
 ╚█████╗░░╚████╔╝░██╔██╗██║░░░██║░░░█████╗░░██║░░╚═╝███████║
-░╚═══██╗░░╚██╔╝░░██║╚████║░░░██║░░░██╔══╝░░██║░░██╗██╔══██║
 ██████╔╝░░░██║░░░██║░╚███║░░░██║░░░███████╗╚█████╔╝██║░░██║
 ╚═════╝░░░░╚═╝░░░╚═╝░░╚══╝░░░╚═╝░░░╚══════╝░╚════╝░╚═╝░░╚═╝
         """)
