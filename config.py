@@ -20,6 +20,10 @@ PREFIXES = ['!']
 BAD_WORDS = ["fuck"]
 API = f"{os.getenv('CHAT_API_KEY')}"
 BID = f"{os.getenv('CHAT_BID')}"
+ 
+# Cog settings
+
+COGS = ['cogs.help', 'cogs.moderation', 'cogs.slash', 'cogs.money', 'cogs.general', 'cogs.ticket', 'cogs.images', 'cogs.error_handling', 'cogs.nsfw', 'cogs.owners']
 
 # Emojis
 
