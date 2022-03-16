@@ -5,11 +5,9 @@ import asyncio
 import discord
 from discord.ext import commands
 
-from utils.database import db, prefix_collection
+from utils.database import db
 from config import (
-    MAIN_COLOR, ERROR_COLOR, WARN_COLOR, LOG_CHANNEL,
-    GLOBAL_CHAT_WEBHOOK, GLOBAL_CHAT_WEBHOOK_2, GLOBAL_CHAT_CHANNEL,
-    GLOBAL_CHAT_CHANNEL_2
+    MAIN_COLOR, ERROR_COLOR, WARN_COLOR, LOG_CHANNEL
 )
 from discord import Webhook
 import aiohttp
@@ -304,5 +302,5 @@ class moderation(commands.Cog, description="This is the cog that allows you to g
             embed = discord.Embed(title=f"Config for {ctx.guild.name}", description=f"**Logs Channel**: `{channel.name}`", color=MAIN_COLOR)
             await ctx.send(embed=embed)                
 
-def setup(bot):
-    bot.add_cog(moderation(bot=bot))
+async def setup(bot):
+    await bot.add_cog(moderation(bot=bot))

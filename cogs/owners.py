@@ -112,5 +112,5 @@ class owners(commands.Cog, description="No go away developers only"):
             await ctx.send("It was been sent")
             await channel.send(embed=embed)
 
-def setup(bot):
-    bot.add_cog(owners(bot=bot))
+async def setup(bot):
+    await bot.add_cog(owners(bot=bot))

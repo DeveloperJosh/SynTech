@@ -104,5 +104,5 @@ class general(commands.Cog, description="This well be where all fun commands are
        embed = discord.Embed(title="Fact", description=f"{json['fact']}", color=FUN_COLOR)
        await ctx.send(embed=embed)
 
-def setup(bot):
-    bot.add_cog(general(bot=bot))
+async def setup(bot):
+    await bot.add_cog(general(bot=bot))

@@ -359,5 +359,5 @@ class money(commands.Cog, description="Make money then sleep"):
             await ctx.send("You don't have enough money")
 
 
-def setup(bot):
-    bot.add_cog(money(bot=bot))
+async def setup(bot):
+    await bot.add_cog(money(bot=bot))

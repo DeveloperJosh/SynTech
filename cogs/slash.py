@@ -6,9 +6,11 @@ import discord
 import aiohttp
 import random
 from discord.ext import commands
+from discord import ui
 from discord import app_commands
 
 from config import FUN_COLOR, MAIN_COLOR
+from utils.database import set_logs
 
 ### Added slash commands to the new cogs folder
 
@@ -19,7 +21,6 @@ class Slash(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         logging.info('Slash is ready')
-        await self.bot.tree.sync(guild=discord.Object(id=951303456650580058))
 
     @app_commands.command(description="test command")
     @app_commands.guilds(951303456650580058)
@@ -65,7 +66,7 @@ class Slash(commands.Cog):
                      await interaction.response.send_message('No gay :(')
         await session.close()
 
-    @app_commands.command(description="For cuddling your friends")
+    @app_commands.command(name="8ball", description="For cuddling your friends")
     @app_commands.guilds(951303456650580058)
     async def _8ball(self, interaction: discord.Interaction, question: str):
         responses = [
@@ -93,6 +94,6 @@ class Slash(commands.Cog):
         response = random.choice(responses)
         embed = discord.Embed(title="8ball", description=f"Question: {question}\nAnswer: {response}", color=FUN_COLOR)
         await interaction.response.send_message(embed=embed)
-
-def setup(bot):
-    bot.add_cog(Slash(bot))
+        
+async def setup(bot):
+    await bot.add_cog(Slash(bot))

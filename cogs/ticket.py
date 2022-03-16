@@ -116,5 +116,5 @@ class tickets(commands.Cog, description="You can set up/use tickets here for sup
         await ctx.send(message)
 
 
-def setup(bot):
-    bot.add_cog(tickets(bot=bot))
+async def setup(bot):
+    await bot.add_cog(tickets(bot=bot))

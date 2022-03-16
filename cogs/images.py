@@ -269,5 +269,5 @@ class images(commands.Cog, description="This is where you can get images"):
          await ctx.send(embed=embed)
 
 
-def setup(bot):
-    bot.add_cog(images(bot=bot))
+async def setup(bot):
+    await bot.add_cog(images(bot=bot))
