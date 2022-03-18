@@ -105,4 +105,4 @@ class general(commands.Cog, description="This well be where all fun commands are
        await ctx.send(embed=embed)
 
 async def setup(bot):
-    await bot.add_cog(general(bot=bot))
+     await bot.add_cog(general(bot=bot))

@@ -60,7 +60,7 @@ class ErrorHandling(commands.Cog, name="on command error"):
         else:
             channel = self.bot.get_channel(ERROR_CHANNEL)
             embed = discord.Embed(title="Error!", description=f"Error:\n```{error}```\nServer:\n```{ctx.guild.name}```\nCommand:\n```{ctx.message.content}```", color=ERROR_COLOR)
-            await channel.send(embed=embed)
+            await ctx.send(embed=embed)
             logging.info(error)
 
 

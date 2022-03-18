@@ -5,9 +5,11 @@ import discord
 from discord.ext import commands
 
 from config import PREFIXES, DEVELOPERS, COGS
+from utils.database import connect_db_check
 
 intents = discord.Intents.default()
 intents.members = True
+intents.message_content = True
 
 bot = commands.Bot(
     owner_ids=DEVELOPERS,
@@ -37,5 +39,6 @@ async def on_ready():
 ██████╔╝░░░██║░░░██║░╚███║░░░██║░░░███████╗╚█████╔╝██║░░██║
 ╚═════╝░░░░╚═╝░░░╚═╝░░╚══╝░░░╚═╝░░░╚══════╝░╚════╝░╚═╝░░╚═╝
         """)
+    await connect_db_check()
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="/help"))
     await bot.tree.sync(guild=discord.Object(id=951303456650580058))

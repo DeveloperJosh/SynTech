@@ -6,7 +6,8 @@ import discord
 import aiohttp
 import random
 from discord.ext import commands
-from discord import app_commands, Spotify
+from discord import app_commands
+from utils.database import new_db
 
 from config import FUN_COLOR, MAIN_COLOR
 from utils.embeds import custom_embed

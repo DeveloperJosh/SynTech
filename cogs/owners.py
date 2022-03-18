@@ -1,13 +1,21 @@
+import json
 import logging
+from mimetypes import init
+import random
+from webbrowser import get
 
 import discord
 from discord.ext import commands
 
 from config import VERIFIED, MAIN_COLOR, SUGGESTIONS_CHANNEL
 from utils.button import Close, Ticket, Verify
-from utils.database import db
+from utils.database import clear_db, db, get_warns, warn_user
 import asyncio
 import sys
+import redis
+from redis.commands.json.path import Path
+
+from utils.embeds import custom_embed
 
 
 class owners(commands.Cog, description="No go away developers only"):
@@ -103,14 +111,28 @@ class owners(commands.Cog, description="No go away developers only"):
         await sys.exit()
 
     @commands.command()
-    async def suggest(self, ctx, *, text=None):
-        channel = self.bot.get_channel(SUGGESTIONS_CHANNEL)
-        if text==None:
-         await ctx.send("Please add text")
+    @commands.is_owner()
+    async def get_info(self, ctx, member: discord.Member):
+        data = await get_warns(member.id)
+        if data is None:
+            embed = custom_embed("No warns", f"{member.name} has no warns")
+            await ctx.send(embed=embed)
         else:
-            embed = discord.Embed(title="Suggestion", description=f"```Suggestion: {text}\nSent by: {ctx.author.name} ({ctx.author.id})\nServer: {ctx.guild.name} ({ctx.author.id})```", color=MAIN_COLOR)
-            await ctx.send("It was been sent")
-            await channel.send(embed=embed)
+            embed = custom_embed("Warns", f"{member.name} has {data} warns")
+            await ctx.send(embed=embed)
+
+    @commands.command()
+    @commands.is_owner()
+    async def test(self, ctx, member: discord.Member):
+        await warn_user(member.id)
+        warns = custom_embed("Warned", f"{member.mention} has been warned")
+        await ctx.send(embed=warns)
+
+    @commands.command()
+    @commands.is_owner()
+    async def clear_db(self, ctx):
+        await clear_db()
+        await ctx.send("Database has been cleared")
 
 async def setup(bot):
     await bot.add_cog(owners(bot=bot))
