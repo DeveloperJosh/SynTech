@@ -14,7 +14,7 @@ FUN_COLOR = discord.Color.blue()
 # Bot config
 
 DEVELOPER = 'Blue.#1270'
-DEVELOPERS = [733536002563637298, 321750582912221184, 558861606063308822]  # adding my id while i was testing with bot :scared: u can remove later
+DEVELOPERS = [733536002563637298, 321750582912221184]
 VERSION = "1.3"
 PREFIXES = ['!']
 BAD_WORDS = ["fuck"]
@@ -23,7 +23,7 @@ BID = f"{os.getenv('CHAT_BID')}"
  
 # Cog settings
 
-COGS = ['cogs.help', 'cogs.moderation', 'cogs.slash', 'cogs.money', 'cogs.general', 'cogs.ticket', 'cogs.images', 'cogs.error_handling', 'cogs.nsfw', 'cogs.owners']
+COGS = ['cogs.help', 'cogs.moderation', 'cogs.slash', 'cogs.money', 'cogs.general','cogs.error_handling', 'cogs.owners']
 
 # Emojis
 
@@ -46,12 +46,8 @@ SUGGESTIONS_CHANNEL = 879186766102421576
 # Cog stuff
 
 EMOJIS_FOR_COGS = {
-    'nsfw': '🔞',
-    'images': '📸',
     'moderation': '🛠️',
     'general': '🌍',
-    'tickets': '🎟️',
-    'info': 'ℹ️',
     'owners': '⛔',
     'money': '<:1money:874004784301096961>'
 }

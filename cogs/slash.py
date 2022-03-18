@@ -9,7 +9,7 @@ from discord.ext import commands
 from discord import app_commands
 from utils.database import new_db
 
-from config import FUN_COLOR, MAIN_COLOR
+from config import DEVELOPERS, FUN_COLOR, MAIN_COLOR
 from utils.embeds import custom_embed
 ### Added slash commands to the new cogs folder
 
