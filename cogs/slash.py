@@ -1,17 +1,15 @@
+from cgitb import text
 import io
 import logging
-import traceback
-from click import command
+from turtle import title
 import discord
 import aiohttp
 import random
 from discord.ext import commands
-from discord import ui
-from discord import app_commands
+from discord import app_commands, Spotify
 
 from config import FUN_COLOR, MAIN_COLOR
-from utils.database import set_logs
-
+from utils.embeds import custom_embed
 ### Added slash commands to the new cogs folder
 
 class Slash(commands.Cog):
@@ -93,6 +91,14 @@ class Slash(commands.Cog):
         ]
         response = random.choice(responses)
         embed = discord.Embed(title="8ball", description=f"Question: {question}\nAnswer: {response}", color=FUN_COLOR)
+        await interaction.response.send_message(embed=embed)
+
+    @app_commands.command(description="making an embed")
+    @app_commands.guilds(951303456650580058)
+    @app_commands.describe(title='Adding a title to the embed')
+    @app_commands.describe(text='Adding a description to the embed')
+    async def embed(self, interaction: discord.Interaction, title: str, text: str):
+        embed = custom_embed(title=title, description=text)
         await interaction.response.send_message(embed=embed)
         
 async def setup(bot):
