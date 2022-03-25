@@ -1,15 +1,16 @@
 from cgitb import text
 import io
 import logging
+from pyexpat import model
 from turtle import title
 import discord
 import aiohttp
 import random
 from discord.ext import commands
 from discord import app_commands
-from utils.database import new_db
+from utils.select import CardInput
 
-from config import DEVELOPERS, FUN_COLOR, MAIN_COLOR
+from config import FUN_COLOR, MAIN_COLOR
 from utils.embeds import custom_embed
 ### Added slash commands to the new cogs folder
 
@@ -101,6 +102,12 @@ class Slash(commands.Cog):
     async def embed(self, interaction: discord.Interaction, title: str, text: str):
         embed = custom_embed(title=title, description=text)
         await interaction.response.send_message(embed=embed)
-        
+
+    @app_commands.command(description="For ordering a bot")
+    @app_commands.guilds(951303456650580058)
+    async def buy(self, interaction: discord.Interaction):
+     print(interaction.user.name)
+     await interaction.response.send_modal(CardInput())
+  
 async def setup(bot):
     await bot.add_cog(Slash(bot))

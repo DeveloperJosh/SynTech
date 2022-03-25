@@ -3,7 +3,6 @@ from config import MAIN_COLOR, EMOJIS_FOR_COGS
 from utils.embeds import error_embed
 from discord.ext import commands
 import logging
-import datetime
 
 async def get_cog_help(cog, context):
     cog = context.bot.get_cog(cog)
@@ -73,4 +72,4 @@ class help_command(commands.Cog):
         logging.info('Help is ready')
 
 async def setup(bot):
-    await bot.add_cog(help_command(bot=bot))
+     await bot.add_cog(help_command(bot=bot))

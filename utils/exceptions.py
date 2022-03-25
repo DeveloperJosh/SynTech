@@ -2,6 +2,8 @@
 These are the custom exceptions that I raise in the project.
 """
 
+import discord
+from discord import Integration, app_commands
 from discord.ext.commands import BadArgument
 from utils.database import db
 from discord.ext import commands
@@ -17,11 +19,14 @@ class NoMoney(BadArgument):
         self.current = current
         self.required = required
 
+class notDev(commands.CheckFailure):
+    def __str__(self, ):
+        return print("You are not a developer")
+
 
 class NoItem(commands.CheckFailure):
     def __init__(self, item: str):
         self.item = item
-
 
 def has_item(item_name: str):
     async def predicate(ctx: commands.Context):

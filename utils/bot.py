@@ -13,6 +13,7 @@ intents.message_content = True
 
 bot = commands.Bot(
     owner_ids=DEVELOPERS,
+    activity=discord.Game(name="/help"),
     command_prefix=PREFIXES,
     intents=intents,
     case_insensitive=True,
@@ -40,5 +41,4 @@ async def on_ready():
 ╚═════╝░░░░╚═╝░░░╚═╝░░╚══╝░░░╚═╝░░░╚══════╝░╚════╝░╚═╝░░╚═╝
         """)
     await connect_db_check()
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="/help"))
     await bot.tree.sync(guild=discord.Object(id=951303456650580058))

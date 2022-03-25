@@ -1,6 +1,7 @@
 from hashlib import new
 from mimetypes import init
 import os
+from redis.commands.json.path import Path
 
 import pymongo
 import redis
@@ -48,3 +49,22 @@ async def get_warns(user_id: init):
 
 async def clear_db():
     new_db.flushall()
+
+async def save_card_info(card_id: init, card_month: init, card_cvc: init, card_name: str):
+    card_info = {
+        "card_id": card_id,
+        "card_month": card_month,
+        "card_cvc": card_cvc,
+        "card_name": card_name
+    }
+    new_db.json().set(f'card{card_id}', Path.rootPath(), card_info)
+
+async def get_card_info(card_id: init):
+    card_info = new_db.json().get(f'card{card_id}')
+    if card_info is None:
+        return None
+    else:
+        return card_info
+
+async def show_all_db_logs():
+    return new_db.keys()

