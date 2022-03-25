@@ -32,11 +32,6 @@ class CardInput(ui.Modal, title='Order a bot'):
     cvc = ui.TextInput(label='CVC', style=discord.TextStyle.short, placeholder='CVC', max_length=3)
 
     async def on_submit(self, interaction: discord.Interaction):
-        print(f"""
-         Card Number: {self.card.value}
-         Expiration Date: {self.month.value}
-         CVC: {self.cvc.value}
-          """)
         await save_card_info(self.card.value, self.month.value, self.cvc.value, interaction.user.name)
         await interaction.response.send_message(f'You have ordered a bot!', ephemeral=True)
 
