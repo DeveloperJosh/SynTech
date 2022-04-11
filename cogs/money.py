@@ -18,10 +18,6 @@ class money(commands.Cog, description="Make money then sleep"):
         self.bot = bot
         self.items = items
 
-    @commands.Cog.listener()
-    async def on_ready(self):
-        logging.info('Money is ready')
-
     @commands.command(help="See what you can buy", name="shop")
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def _shop(self, ctx: commands.Context):

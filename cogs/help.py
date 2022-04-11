@@ -67,9 +67,5 @@ class help_command(commands.Cog):
         self.bot = bot
         self.bot.help_command = MyHelp()
 
-    @commands.Cog.listener()
-    async def on_ready(self):
-        logging.info('Help is ready')
-
 async def setup(bot):
      await bot.add_cog(help_command(bot=bot))

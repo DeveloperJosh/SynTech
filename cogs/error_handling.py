@@ -4,7 +4,7 @@ import discord
 from config import ERROR_COLOR, ERROR_CHANNEL, MONEY_EMOJI
 
 from discord.ext import commands
-from discord.ext.commands import MissingPermissions, CheckFailure, CommandNotFound, MissingRequiredArgument, BadArgument
+from discord.ext.commands import MissingPermissions, CheckFailure, CommandNotFound, MissingRequiredArgument, BadArgument, MissingRole
 
 
 class ErrorHandling(commands.Cog, name="on command error"):
@@ -30,6 +30,9 @@ class ErrorHandling(commands.Cog, name="on command error"):
         elif isinstance(error, MissingPermissions):
             embed = discord.Embed(title="ERROR!", description=f"{error}", color=ERROR_COLOR)
             await ctx.send(embed=embed)
+        elif isinstance(error, MissingRole):
+            embed = discord.Embed(title="ERROR!", description=f"{error}", color=ERROR_COLOR)
+            await ctx.send(embed=embed)    
         elif isinstance(error, MissingRequiredArgument):
             embed = discord.Embed(title="ERROR!", description=f"{error}", color=ERROR_COLOR)
             await ctx.send(embed=embed)

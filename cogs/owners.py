@@ -1,7 +1,7 @@
 import json
 import logging
 from mimetypes import init
-import random
+from discord import app_commands
 from webbrowser import get
 
 import discord
@@ -18,7 +18,7 @@ from redis.commands.json.path import Path
 from utils.embeds import custom_embed
 
 
-class owners(commands.Cog, description="No go away developers only"):
+class owners(commands.Cog, description="No go away developers only",):
     def __init__(self, bot):
         self.bot = bot
 
@@ -27,7 +27,6 @@ class owners(commands.Cog, description="No go away developers only"):
         self.bot.add_view(Verify())
         self.bot.add_view(Ticket())
         self.bot.add_view(Close())
-        logging.info("Owners is ready")
 
     @commands.command()
     @commands.is_owner()
@@ -157,8 +156,6 @@ class owners(commands.Cog, description="No go away developers only"):
     @commands.is_owner()
     async def show(self, ctx):
         await ctx.send(await show_all_db_logs())
-
-
 
 async def setup(bot):
     await bot.add_cog(owners(bot=bot))

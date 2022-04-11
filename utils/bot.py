@@ -3,6 +3,7 @@ import os
 
 import discord
 from discord.ext import commands
+from importlib_metadata import files
 
 from config import PREFIXES, DEVELOPERS, COGS
 from utils.database import connect_db_check
@@ -22,16 +23,23 @@ bot = commands.Bot(
 )
 logging.basicConfig(level=logging.INFO)
 
-# This is our new way to load cogs and load the bot
+
+async def load_cogs():
+    i = 0
+    files = os.listdir('./cogs')
+    for file in files:
+        if file.endswith('.py'):
+            await bot.load_extension(f'cogs.{file[:-3]}')
+            i += 1
+    logging.info(f"Loaded {i} cogs from \"cogs\"")
+
 async def main():
     async with bot:
-        for ext in COGS:
-            await bot.load_extension(ext)
+        await load_cogs()
         await bot.start(os.getenv('DISCORD_BOT_SECRET'))
 
 @bot.event
 async def on_ready():
-    os.system('cls')
     print("""
 
 ░██████╗██╗░░░██╗███╗░░██╗████████╗███████╗░█████╗░██╗░░██╗
@@ -40,5 +48,13 @@ async def on_ready():
 ██████╔╝░░░██║░░░██║░╚███║░░░██║░░░███████╗╚█████╔╝██║░░██║
 ╚═════╝░░░░╚═╝░░░╚═╝░░╚══╝░░░╚═╝░░░╚══════╝░╚════╝░╚═╝░░╚═╝
         """)
+    print(f"Logged in as {bot.user}")
+    print(f"Connected to: {len(bot.guilds)} guilds")
+    print(f"Connected to: {len(bot.users)} users")
+    print(f"Connected to: {len(bot.cogs)} cogs")
+    print(f"Connected to: {len(bot.commands)} commands")
+    print(f"Connected to: {len(bot.emojis)} emojis")
+    print(f"Connected to: {len(bot.voice_clients)} voice clients")
+    print(f"Connected to: {len(bot.private_channels)} private_channels")
     await connect_db_check()
     await bot.tree.sync(guild=discord.Object(id=951303456650580058))

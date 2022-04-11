@@ -17,10 +17,6 @@ class general(commands.Cog, description="This well be where all fun commands are
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.Cog.listener()
-    async def on_ready(self):
-        logging.info('General is ready')
-
     @commands.command()
     async def remindme(self, ctx, time, *, reminder):
         embed = discord.Embed(color=ERROR_COLOR)

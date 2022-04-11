@@ -23,7 +23,7 @@ BID = f"{os.getenv('CHAT_BID')}"
  
 # Cog settings
 
-COGS = ['cogs.help', 'cogs.moderation', 'cogs.slash', 'cogs.money', 'cogs.general','cogs.error_handling', 'cogs.owners']
+COGS = ['cogs.help', 'cogs.moderation', 'cogs.slash', 'cogs.money', 'cogs.general','cogs.error_handling', 'cogs.owners', 'jishaku']
 
 # Emojis
 

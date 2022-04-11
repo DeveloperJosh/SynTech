@@ -24,7 +24,7 @@ class Verify(discord.ui.View):
         self.bot = discord.Client
 
     @discord.ui.button(label="Verify", style=discord.ButtonStyle.green, emoji=f"{VERIFIED}", custom_id="verify_view:green")
-    async def verify(self, button, interaction):
+    async def verify(self, interaction, button):
         role = interaction.guild.get_role(870159097524273262)
         member_role = interaction.guild.get_role(870161379141763092)
         await interaction.user.add_roles(role)
@@ -41,7 +41,7 @@ class Close(discord.ui.View):
         super().__init__(timeout=None)
 
     @discord.ui.button(label="Close", style=discord.ButtonStyle.red, emoji=f"{CLOSE_EMOJI}", custom_id="close_view:red")
-    async def close(self, button, interaction):
+    async def close(self, interaction, button):
         e = db.collection.find_one(
             {"ticket_guild_id": interaction.guild.id, "ticket": int(interaction.channel.topic)})
         if e is None:
@@ -71,7 +71,7 @@ class Ticket(discord.ui.View):
         super().__init__(timeout=None)
 
     @discord.ui.button(label="Open Ticket", style=discord.ButtonStyle.green, emoji=f"{TICKET_EMOJI}", custom_id="ticket_view:green")
-    async def ticket(self, button, interaction):
+    async def ticket(self, interaction, button):
         e = db.collection.find_one({"ticket_guild_id": interaction.guild.id, "ticket": interaction.user.id})
         if e is None:
             tickets_thing = discord.utils.get(interaction.guild.categories, id=TICKETS_CATEGORY)
@@ -96,12 +96,12 @@ class Menu(discord.ui.View):
         super().__init__(timeout=None)
 
     @discord.ui.button(label="Info", style=discord.ButtonStyle.blurple)
-    async def menu(self, button, interaction):
+    async def menu(self, interaction, button):
         embed = discord.Embed(title="Info", description="To get info on a cog just do `!help <cog name>`", color=MAIN_COLOR)
         await interaction.message.edit(embed=embed, view=self)
 
     @discord.ui.button(label="delete", style=discord.ButtonStyle.red)
-    async def delete(self, button, interaction):
+    async def delete(self, interaction, button):
         await interaction.message.delete()
 
 
@@ -118,14 +118,14 @@ class Pages(discord.ui.View):
         await msg.edit(embed=em)
 
     @discord.ui.button(emoji=f'{BACK_ARROW}', style=discord.ButtonStyle.blurple)
-    async def bac(self, b, i):
+    async def bac(self, i, b):
         if self.current == 0:
             return
         await self.edit(i.message, self.current - 1)
         self.current -= 1
 
     @discord.ui.button(emoji="🏠", style=discord.ButtonStyle.blurple)
-    async def home(self, button, interaction):
+    async def home(self, interaction, button):
         embed = custom_embed(
             "Home Page",
             "Go to the next page for anime"
@@ -133,7 +133,7 @@ class Pages(discord.ui.View):
         await interaction.message.edit(embed=embed, view=self)
 
     @discord.ui.button(emoji=f'{FORWARD_ARROW}', style=discord.ButtonStyle.blurple)
-    async def nex(self, b, i):
+    async def nex(self, i, b):
         if self.current + 1 == len(self.embeds):
             return
         await self.edit(i.message, self.current + 1)
@@ -151,7 +151,7 @@ class Counter(discord.ui.View):
         self.ctx = ctx
 
     @discord.ui.button(label='0', style=discord.ButtonStyle.red)
-    async def count(self, button: discord.ui.Button, interaction: discord.Interaction):
+    async def count(self, interaction, button):
         number = int(button.label) if button.label else 0
         if number + 1 >= 999:
             button.style = discord.ButtonStyle.green
@@ -172,7 +172,7 @@ class Search(discord.ui.View):
         self.value = None
 
     @discord.ui.button(label="House", style=discord.ButtonStyle.blurple)
-    async def house(self, button: discord.ui.Button, interaction: discord.Interaction):
+    async def house(self, interaction, button):
         e = db.collection.find_one({"guild_id": interaction.guild.id, "_user": interaction.user.id})
         if e is None:
             number = random.randint(15, 500)
@@ -200,7 +200,7 @@ class Search(discord.ui.View):
              await interaction.message.edit(view=self)
 
     @discord.ui.button(label="Dumpster", style=discord.ButtonStyle.red)
-    async def dumpster(self, button: discord.ui.Button, interaction: discord.Interaction):
+    async def dumpster(self, interaction, button):
         e = db.collection.find_one({"guild_id": interaction.guild.id, "_user": interaction.user.id})
         if e is None:
             number = random.randint(15, 600)
@@ -228,7 +228,7 @@ class Search(discord.ui.View):
              await interaction.message.edit(view=self)
 
     @discord.ui.button(label="Nirleps House", style=discord.ButtonStyle.red)
-    async def hose2(self, button: discord.ui.Button, interaction: discord.Interaction):
+    async def hose2(self, interaction, button):
         e = db.collection.find_one({"guild_id": interaction.guild.id, "_user": interaction.user.id})
         if e is None:
             number = random.randint(15, 700)
@@ -270,13 +270,13 @@ class LeaderboardView(discord.ui.View):
         self.embed2 = embed2
 
     @discord.ui.button(label="Server Leaderboard", style=discord.ButtonStyle.blurple, disabled=True)
-    async def guild_leaderboard(self, button: discord.ui.Button, interaction: discord.Interaction):
+    async def guild_leaderboard(self, interaction, button):
         self.children[1].disabled = False
         button.disabled = True
         await interaction.message.edit(embed=self.embed1, view=self)
 
     @discord.ui.button(label="Global Leaderboard", style=discord.ButtonStyle.blurple)
-    async def global_leaderboard(self, button: discord.ui.Button, interaction: discord.Interaction):
+    async def global_leaderboard(self, interaction, button):
         self.children[0].disabled = False
         button.disabled = True
         await interaction.message.edit(embed=self.embed2, view=self)

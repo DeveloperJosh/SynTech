@@ -19,10 +19,6 @@ class moderation(commands.Cog, description="This is the cog that allows you to g
         self.bot = bot
 
     @commands.Cog.listener()
-    async def on_ready(self):
-        logging.info('Moderation is ready')
-
-    @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
         result = db.collection.find_one({"_guild_id": member.guild.id})
 

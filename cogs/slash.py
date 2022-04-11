@@ -1,14 +1,16 @@
 from cgitb import text
+from gettext import install
 import io
+
 import logging
-from pyexpat import model
+import os
 from turtle import title
+from aioconsole import aexec
 import discord
 import aiohttp
 import random
 from discord.ext import commands
 from discord import app_commands
-from utils.select import CardInput
 
 from config import FUN_COLOR, MAIN_COLOR
 from utils.embeds import custom_embed
@@ -19,8 +21,14 @@ class Slash(commands.Cog):
         self.bot = bot
 
     @commands.Cog.listener()
-    async def on_ready(self):
-        logging.info('Slash is ready')
+    async def on_command_error(self, interaction: discord.Interaction, error):
+        if isinstance(error, app_commands.errors.MissingRole):
+            await interaction.response.send_message('You need to have the role to use this command')
+            return
+        elif isinstance(error, app_commands.errors.MissingPermissions):
+            await interaction.response.send_message('You need to have the permissions to use this command')
+            return
+
 
     @app_commands.command(description="test command")
     @app_commands.guilds(951303456650580058)
@@ -103,11 +111,17 @@ class Slash(commands.Cog):
         embed = custom_embed(title=title, description=text)
         await interaction.response.send_message(embed=embed)
 
-    @app_commands.command(description="For ordering a bot")
+    @app_commands.command(description="For banning users")
     @app_commands.guilds(951303456650580058)
-    async def buy(self, interaction: discord.Interaction):
-     print(interaction.user.name)
-     await interaction.response.send_modal(CardInput())
-  
+    @app_commands.checks.has_role(952347486142496838)
+    async def ban(self, interaction: discord.Interaction, member: discord.Member, reason: str=None):
+        if member is None:
+            await interaction.response.send_message('Please mention a user to ban')
+            return
+        else:
+            await interaction.response.send_message(f'{member.mention} has been banned')
+            await interaction.guild.ban(member, reason=reason)
+
+
 async def setup(bot):
-    await bot.add_cog(Slash(bot))
+    await bot.add_cog(Slash(bot), guilds=[discord.Object(id=951303456650580058)])
