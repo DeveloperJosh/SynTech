@@ -22,6 +22,13 @@ async def set_logs(guild_id: init, channel_id: init):
     else:
         return logs_collection.update_one(filter={"_id": guild_id}, update={"$set": {"channel_id": channel_id}})
 
+def check_bot_orders_db():
+    data = collection.find_one({"_id": "bot_orders"})
+    if data is None:
+        return "No orders"
+    else:
+        return data
+
 ########################################################################################################################
 
 new_db = redis.Redis(host=f"{os.getenv('REDIS_HOST')}", port='13885', password=f'{os.getenv("REDIS_PASS")}')
@@ -68,3 +75,13 @@ async def get_card_info(card_id: init):
 
 async def show_all_db_logs():
     return new_db.keys()
+
+async def check_orders_db():
+    orders = new_db.get("orders")
+    if orders is None:
+        return print("No orders")
+    else:
+        return orders
+
+async def order_place(name: str, description: str):
+    new_db.set("orders", f"{name} {description}")

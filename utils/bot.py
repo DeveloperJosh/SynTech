@@ -6,7 +6,7 @@ from discord.ext import commands
 from importlib_metadata import files
 
 from config import PREFIXES, DEVELOPERS, COGS
-from utils.database import connect_db_check
+from utils.database import check_orders_db, connect_db_check
 
 intents = discord.Intents.default()
 intents.members = True

@@ -2,10 +2,6 @@ from cgitb import text
 from gettext import install
 import io
 
-import logging
-import os
-from turtle import title
-from aioconsole import aexec
 import discord
 import aiohttp
 import random
@@ -14,6 +10,7 @@ from discord import app_commands
 
 from config import FUN_COLOR, MAIN_COLOR
 from utils.embeds import custom_embed
+from utils.modal import Order
 ### Added slash commands to the new cogs folder
 
 class Slash(commands.Cog):
@@ -121,6 +118,12 @@ class Slash(commands.Cog):
         else:
             await interaction.response.send_message(f'{member.mention} has been banned')
             await interaction.guild.ban(member, reason=reason)
+
+    @app_commands.command()
+    @app_commands.guilds(951303456650580058)
+    async def order(self, interaction: discord.Interaction):
+        await interaction.response.send_modal(Order())
+
 
 
 async def setup(bot):
