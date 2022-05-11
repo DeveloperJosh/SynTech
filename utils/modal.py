@@ -4,21 +4,6 @@ from unicodedata import name
 import discord
 from discord import ui
 
-from utils.database import order_place
-
-class Order(ui.Modal, title="Order"):
-    name = ui.TextInput(label='Name', style=discord.TextStyle.short, placeholder='User ID', max_length=20)
-    description = ui.TextInput(label='Description', style=discord.TextStyle.short, placeholder='Description', max_length=20)
-
-    async def on_submit(self, interaction: discord.Interaction):
-        try:
-            await order_place(self.name.value, self.description.value)
-            await interaction.response.send_message('Order placed!')
-        except Exception as e:
-            await interaction.response.send_message(f'Error: {e}')
-            traceback.print_exc()
-
-
 class Ban(ui.Modal, title='Ban a user'):
     user = ui.TextInput(label='User ID', style=discord.TextStyle.short, placeholder='User ID', max_length=20)
     reason = ui.TextInput(label='Reason', style=discord.TextStyle.short, placeholder='Reason', max_length=20)

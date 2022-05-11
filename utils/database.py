@@ -1,3 +1,4 @@
+from distutils.log import error
 from hashlib import new
 from mimetypes import init
 import os
@@ -6,11 +7,20 @@ from redis.commands.json.path import Path
 import pymongo
 import redis
 from dotenv import load_dotenv
+import syndb
 load_dotenv()
 client = pymongo.MongoClient(
     f"mongodb+srv://{os.getenv('DATABASE_NAME')}:{os.getenv('DATABASE_PASS')}@{os.getenv('DATABASE_LINK')}/cluster0?retryWrites=true&w=majority")
 
 db = client['cluster0']
+db1 = syndb.load("databases/warns.json", True)
+
+def check_db():
+    ping = db1.ping()
+    if ping is False:
+        return print("Can't find database")
+    else:
+        return print("Connected to database")
 
 collection = db["cluster0"]
 logs_collection = db["logs"]
@@ -76,12 +86,8 @@ async def get_card_info(card_id: init):
 async def show_all_db_logs():
     return new_db.keys()
 
-async def check_orders_db():
-    orders = new_db.get("orders")
-    if orders is None:
-        return print("No orders")
-    else:
-        return orders
+async def set_mod_logs(guild_id: init, channel_id: init):
+    new_db.set(f"mod_logs:{guild_id}", channel_id)
 
-async def order_place(name: str, description: str):
-    new_db.set("orders", f"{name} {description}")
+async def set_suggestion_channel(guild_id: init, channel_id: init):
+    new_db.set(f"suggestion_channel:{guild_id}", channel_id)

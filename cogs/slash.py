@@ -10,7 +10,6 @@ from discord import app_commands
 
 from config import FUN_COLOR, MAIN_COLOR
 from utils.embeds import custom_embed
-from utils.modal import Order
 ### Added slash commands to the new cogs folder
 
 class Slash(commands.Cog):
@@ -107,24 +106,6 @@ class Slash(commands.Cog):
     async def embed(self, interaction: discord.Interaction, title: str, text: str):
         embed = custom_embed(title=title, description=text)
         await interaction.response.send_message(embed=embed)
-
-    @app_commands.command(description="For banning users")
-    @app_commands.guilds(951303456650580058)
-    @app_commands.checks.has_role(952347486142496838)
-    async def ban(self, interaction: discord.Interaction, member: discord.Member, reason: str=None):
-        if member is None:
-            await interaction.response.send_message('Please mention a user to ban')
-            return
-        else:
-            await interaction.response.send_message(f'{member.mention} has been banned')
-            await interaction.guild.ban(member, reason=reason)
-
-    @app_commands.command()
-    @app_commands.guilds(951303456650580058)
-    async def order(self, interaction: discord.Interaction):
-        await interaction.response.send_modal(Order())
-
-
 
 async def setup(bot):
     await bot.add_cog(Slash(bot), guilds=[discord.Object(id=951303456650580058)])

@@ -5,8 +5,8 @@ import discord
 from discord.ext import commands
 from importlib_metadata import files
 
-from config import PREFIXES, DEVELOPERS, COGS
-from utils.database import check_orders_db, connect_db_check
+from config import PREFIXES, DEVELOPERS
+from utils.database import check_db
 
 intents = discord.Intents.default()
 intents.members = True
@@ -36,7 +36,7 @@ async def load_cogs():
 async def main():
     async with bot:
         await load_cogs()
-        await bot.start(os.getenv('DISCORD_BOT_SECRET'))
+        await bot.start(os.getenv('DISCORD_BOT_SECRET'), reconnect=True)
 
 @bot.event
 async def on_ready():
@@ -56,5 +56,5 @@ async def on_ready():
     print(f"Connected to: {len(bot.emojis)} emojis")
     print(f"Connected to: {len(bot.voice_clients)} voice clients")
     print(f"Connected to: {len(bot.private_channels)} private_channels")
-    await connect_db_check()
+    check_db()
     await bot.tree.sync(guild=discord.Object(id=951303456650580058))
