@@ -19,15 +19,16 @@ class Mod_Commands(commands.Cog):
 
     @app_commands.command()
     @app_commands.guilds(951303456650580058)
-    async def warn_user(self, interaction: discord.Interaction, user: discord.User):
+    async def warn_user(self, interaction: discord.Interaction, user: discord.User, *, reason: str):
         data = db1.get(f"warns:{user.id}")
-        if data is None:
+        if data is False:
             db1.set(f"warns:{user.id}", 1)
             await interaction.response.send_message(f'{user.mention} has 1 warn', ephemeral=True)
+
         else:
             db1.update(f"warns:{user.id}", int(data) + 1)
             print(data)
-            await interaction.response.send_message(f'{user.mention} has {int(data) + 1} warns', ephemeral=True)
+            await interaction.response.send_message(f"{user.mention}'s warns have been updated", ephemeral=True)
 
 async def setup(bot):
     await bot.add_cog(Mod_Commands(bot))
