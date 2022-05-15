@@ -3,14 +3,14 @@ import os
 
 import discord
 from discord.ext import commands
-from importlib_metadata import files
-
 from config import PREFIXES, DEVELOPERS
 from utils.database import check_db
 
 intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
+intents.emojis = True
+intents.emojis_and_stickers = True
 
 bot = commands.Bot(
     owner_ids=DEVELOPERS,

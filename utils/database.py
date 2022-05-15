@@ -1,4 +1,5 @@
 from distutils.log import error
+from email import message
 from hashlib import new
 from mimetypes import init
 import os
@@ -13,7 +14,11 @@ client = pymongo.MongoClient(
     f"mongodb+srv://{os.getenv('DATABASE_NAME')}:{os.getenv('DATABASE_PASS')}@{os.getenv('DATABASE_LINK')}/cluster0?retryWrites=true&w=majority")
 
 db = client['cluster0']
-db1 = syndb.load("databases/warns.json", True)
+db1 = syndb.load("databases/db.json", True)
+
+def get_starboard_messages():
+    stars = db1.list_get("starboard")
+    return stars
 
 def check_db():
     ping = db1.ping()
